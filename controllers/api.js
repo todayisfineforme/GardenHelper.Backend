@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASEURL = "'https://trefle.io/api/v1/plants/";
+const BASEURL = "https://trefle.io/api/v1/plants/";
 const APIKEY = "token=4X3cnkrtJQkr43W5E8MqVHBljQjceJ3RwXG2sDcVelg";
 
 export default {
