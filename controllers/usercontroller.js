@@ -28,8 +28,13 @@ class UserController {
                 } else {
 
                     let isPasswordValid = user.validatePassword(request.body.password);
-                    if (isPasswordValid)
-                        response.status(200).json({ success: 'signin successful' });
+                    if (isPasswordValid) {
+
+                        response.status(200).json({
+                            success: 'user logged in',
+                            userid: user.id
+                        });
+                    }
                     else
                         response.status(401).json({ error: 'unable to login user' });
                 }

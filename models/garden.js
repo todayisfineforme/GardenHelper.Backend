@@ -23,4 +23,4 @@ const GardenSchema = new Schema({
 })
 
 const Garden = mongoose.model("Garden", GardenSchema);
-export default GardenSchema;
+module.exports = Garden;
