@@ -1,5 +1,6 @@
 const express = require('express');
 const Garden = require('../models/garden');
+const { findOne } = require('../models/garden');
 
 class GardenController {
     constructor(app) {
@@ -28,27 +29,52 @@ class GardenController {
     async addPlot(request, response) {
         try {
             let height = request.body.height;
-            let length = request.body.length;
+            let length = request.body.lenght;
+            let name = request.body.name;
 
-            await this.save(height, length);
-            response.status(200).json({ success: 'plot saved successful' });
+            let gardenid = request.body.gardenid;
+            let garden = await Garden.findById(gardenid);
+
+            if (garden) {
+                garden.plots.push({
+                    name: name,
+                    length: length,
+                    height: height
+                });
+                garden.save();
+                response.status(200).json({ success: 'plot saved successfuly' });
+            } else {
+                response.status(500).json({ error: 'plot unable to add' });
+            }
         }
         catch (error) {
-            response.status(500).json({ error: 'unable to add plot' });
+            response.status(500).json({ error: 'plot unable to add' })
         }
     }
 
     async addPlant(request, response) {
+
         try {
             let name = request.body.name;
+            let gardenid = request.body.gardenid;
+            let plotid = request.body.plotid;
+            let garden = await Garden.findById(gardenid);
+            if (garden) {
+                let plot = garden.plots.find(plot => plot._id == plotid);
 
-            await this.save(name);
-            response.status(200).json({ success: 'plant name saved successful' });
+                let plant = new Plant();
+                plant.name = name;
+                plot.plants.push(plant);
+
+                garden.save();
+                response.status(200).json({ success: 'plant saved successfuly' });
+            } else {
+                response.status(500).json({ error: 'unable to save plant, garden not found' });
+            }
         }
         catch (error) {
             response.status(500).json({ error: 'unable to save plant name' });
         }
-
     }
 
     createRoutes() {

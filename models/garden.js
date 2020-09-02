@@ -6,6 +6,7 @@ const GardenSchema = new Schema({
     userid: mongoose.ObjectId,
     name: String,
     plots: [{
+        name:String,
         height: Number,
         length: Number,
         watering: [{
@@ -17,7 +18,7 @@ const GardenSchema = new Schema({
             name:String 
         }],
         plants: [{
-            name: String
+            name: String,
         }]
     }]
 })
