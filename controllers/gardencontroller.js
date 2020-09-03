@@ -1,6 +1,7 @@
 const express = require('express');
 const Garden = require('../models/garden');
 const { findOne } = require('../models/garden');
+const { request, response } = require('express');
 
 class GardenController {
     constructor(app) {
@@ -62,8 +63,9 @@ class GardenController {
             if (garden) {
                 let plot = garden.plots.find(plot => plot._id == plotid);
 
-                let plant = new Plant();
-                plant.name = name;
+                let plant = {
+                    name: name,
+                };
                 plot.plants.push(plant);
 
                 garden.save();
@@ -77,10 +79,66 @@ class GardenController {
         }
     }
 
+    async addwater(request, response) {
+
+        try {
+            let waterQuantity = request.body.waterQuantity;
+            let date = new Date();
+
+            let garden = await Garden.findById(gardenid);
+            if (garden) {
+                let plot = garden.plots.find(plot => plot._id == plotid);
+
+                let watering = {
+                    waterQuantity: waterQuantity,
+                    date: date
+                }
+
+                plot.watering.push(watering);
+
+                garden.save();
+                response.status(200).json({ success: 'watering saved successfuly' });
+            } else {
+                response.status(500).json({ error: 'unable to save watering, garden not found' });
+            }
+
+
+        }
+        catch (error) {
+            response.status(500).json({ error: 'unable to add watering details' });
+        }
+    }
+
+    async addfertilizer(request, response) {
+        let name = request.body.name;
+        let date = new Date();
+
+        let garden = await Garden.findById(gardenid);
+        if (garden) {
+            let plot = garden.plots.find(plot => plot._id == plotid);
+
+            let fertilizer = {
+                name: name,
+                date: date
+            }
+            plot.fertilizer.push(fertilizer)
+            garden.save();
+            response.status(200).json({ success: 'fertilizer saved successfuly' });
+        } else {
+            response.status(500).json({ error: 'unable to save fertilizer, garden not found' });
+        }
+    }
+    catch(error) {
+        response.status(500).json({error: 'unable to add fertilizer details' });
+    }
+
+
     createRoutes() {
         this.app.post('/api/garden/add', (request, response) => this.addGarden(request, response));
         this.app.post('/api/plot/add', (request, response) => this.addPlot(request, response));
         this.app.post('/api/plant/add', (request, response) => this.addPlant(request, response));
+        this.app.post('/api/watering/add', (request, response) => this.addwater(request, response));
+        this.app.post('/api/fertilizer/add', (request, response) => this.addfertilizer(request, response));
     }
 }
 
