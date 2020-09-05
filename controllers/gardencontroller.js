@@ -125,11 +125,37 @@ class GardenController {
             garden.save();
             response.status(200).json({ success: 'fertilizer saved successfuly' });
         } else {
-            response.status(500).json({ error: 'unable to save fertilizer, garden not found' });
+            response.status(500).json({ error: 'unable to save fertilizer' });
         }
     }
     catch(error) {
-        response.status(500).json({error: 'unable to add fertilizer details' });
+        response.status(500).json({ error: 'unable to add fertilizer details' });
+    }
+
+    async getGardens(request, response) {
+        try {
+            let userid = request.params.userid;
+
+            let gardens = await Garden.find({ userid: userid });
+            response.status(200).json(gardens);
+        }
+        catch (error) {
+            response.status(500).json({ error: 'unable to get all garden' });
+        }
+
+    }
+
+    async getPlots(request, response) {
+        try {
+            let gardenid = request.params.gardenid;
+
+            let garden = await Garden.findById(gardenid);
+            response.status(200).json(garden.plots);
+
+        }
+        catch (error) {
+            response.status(500).json({ error: 'unable to get plots' });
+        }
     }
 
 
@@ -139,6 +165,9 @@ class GardenController {
         this.app.post('/api/plant/add', (request, response) => this.addPlant(request, response));
         this.app.post('/api/watering/add', (request, response) => this.addwater(request, response));
         this.app.post('/api/fertilizer/add', (request, response) => this.addfertilizer(request, response));
+        this.app.get('/api/user/gardens', (request, response) => this.getGardens(request, response));
+        this.app.get('/api/user/plots', (request, response) => this.getPlots(request, response));
+
     }
 }
 
