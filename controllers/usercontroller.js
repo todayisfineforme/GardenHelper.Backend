@@ -1,5 +1,5 @@
 const { response } = require("express");
-const User = require("./models/user");
+const User = require("../models/user");
 
 class UserController {
     constructor(app) {
@@ -12,11 +12,17 @@ class UserController {
             user.email = request.body.email;
             user.username = request.body.username;
             user.setPassword(request.body.password);
-            await this.user.save();
+            await user.save();
             response.status(200).json({ success: 'signup successful' });
         }
         catch (error) {
-            response.status(500).json({ error: 'unable to signup user' });
+            let errorObject = {
+                message: 'unable to signup user'
+            }
+            if (error.code == 11000)
+                errorObject.error = 'Email already exists';
+
+            response.status(500).json(errorObject);
         }
     }
 
