@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require('body-parser');
-const UserController = requrie('./controllers/usercontroller');
-const GardenController = require('.controllers/gardencontroller');
+const UserController = require('./controllers/usercontroller');
+const GardenController = require('./controllers/gardencontroller');
+const cors = require('cors');
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3009
 const app = express();
 
 app.use(bodyparser.json());
@@ -15,11 +16,18 @@ app.use(express.static("public"));
 
 connectMongoose();
 
-const controller = new UserController(app);
-controller.createRoutes();
+if (process.env.NODE_ENV != 'production') {
+  app.use(cors({
+    origin: '*'
+  }));
+}
 
-const controller = new GardenController(app);
-controller.createRoutes();
+
+const userController = new UserController(app);
+userController.createRoutes();
+
+const gardencontroller = new GardenController(app);
+gardencontroller.createRoutes();
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
