@@ -1,23 +1,29 @@
-import axios from "axios";
-const express = require("express");
-const router = express.Router();
-const BASEURL = "https://trefle.io/api/v1/plants/";
-const APIKEY = "token=4X3cnkrtJQkr43W5E8MqVHBljQjceJ3RwXG2sDcVelg";
+const axios =  require("axios");
+const express = require('express');
+const { request, response } = require('express');
 
-router.get("/api/search", function(query, res){
-    console.log("hit plant search api");
-    return axios.get(BASEURL + "search?" + APIKEY + "&q=" + query);
-});
+class apiController {
+    constructor(app) {
+        this.app = app;
+    }
 
+    async getPlants(request, response) {
+        try {
+            const BASEURL = "https://trefle.io/api/v1/plants/";
+            const APIKEY = "token=4X3cnkrtJQkr43W5E8MqVHBljQjceJ3RwXG2sDcVelg";
+            let query = request.params.search;
+            const result = await axios.get(BASEURL + "search?" + APIKEY + "&q=" + query);
 
-// export default {
-//   search: function(query) {
-    
-//   },
+            response.status(200).json(result.data.data);
+        }
+        catch (error) {
+            response.status(500).json({ error: 'unable to get all garden' });
+        }
+    }
 
-//   bydefault: function(id){
-//     return axios.get(BASEURL + id + "?" + APIKEY)
-//   },
-// };
+    createRoutes() {
+        this.app.get('/api/search/:search', (request, response) => this.getPlants(request, response));
+    }
+}
 
-module.exports = router;
+module.exports = apiController;
