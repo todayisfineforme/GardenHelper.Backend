@@ -29,7 +29,7 @@ class UserController {
     async loginUser(request, response) {
         User.findOne({ email: request.body.email }, (error, user) => {
             try {
-                if (error) {
+                if (error || !user) {
                     response.status(401).json({ error: 'unable to login user' });
                 } else {
 

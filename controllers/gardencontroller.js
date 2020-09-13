@@ -19,7 +19,7 @@ class GardenController {
 
             await garden.save();
 
-            response.status(200).json({ success: 'Garden saved successful' });
+            response.status(200).json({ success: 'Garden saved successful', gardenid: garden.id });
         }
         catch (error) {
             response.status(500).json({ error: 'unable to save garden name' });
@@ -29,18 +29,26 @@ class GardenController {
 
     async addPlot(request, response) {
         try {
-            let height = request.body.height;
-            let length = request.body.lenght;
-            let name = request.body.name;
+            let width = request.body.width;
+            let length = request.body.length;
+            let sizeunits = request.body.sizeunits;
+            let plotName = request.body.plotName;
+            let plantName = request.body.plantName;
+            let quantity = request.body.quantity;
 
             let gardenid = request.body.gardenid;
             let garden = await Garden.findById(gardenid);
 
             if (garden) {
                 garden.plots.push({
-                    name: name,
+                    name: plotName,
                     length: length,
-                    height: height
+                    width: width,
+                    units: sizeunits,
+                    plant: {
+                        name: plantName,
+                        quantity: quantity
+                    }
                 });
                 garden.save();
                 response.status(200).json({ success: 'plot saved successfuly' });
@@ -82,6 +90,7 @@ class GardenController {
     async addwater(request, response) {
 
         try {
+            let note=request.body.note;
             let waterQuantity = request.body.waterQuantity;
             let date = new Date();
 
@@ -91,6 +100,7 @@ class GardenController {
 
                 let watering = {
                     waterQuantity: waterQuantity,
+                    note:note,
                     date: date
                 }
 
@@ -111,6 +121,7 @@ class GardenController {
 
     async addfertilizer(request, response) {
         let name = request.body.name;
+        let note=request.body.name;
         let date = new Date();
 
         let garden = await Garden.findById(gardenid);
@@ -119,7 +130,8 @@ class GardenController {
 
             let fertilizer = {
                 name: name,
-                date: date
+                date: date,
+                note:note
             }
             plot.fertilizer.push(fertilizer)
             garden.save();
@@ -131,7 +143,7 @@ class GardenController {
     catch(error) {
         response.status(500).json({ error: 'unable to add fertilizer details' });
     }
-
+ 
     async getGardens(request, response) {
         try {
             let userid = request.params.userid;
@@ -145,12 +157,12 @@ class GardenController {
 
     }
 
-    async getPlots(request, response) {
+    async getGarden(request, response) {
         try {
             let gardenid = request.params.gardenid;
 
             let garden = await Garden.findById(gardenid);
-            response.status(200).json(garden.plots);
+            response.status(200).json(garden);
 
         }
         catch (error) {
@@ -166,7 +178,7 @@ class GardenController {
         this.app.post('/api/watering/add', (request, response) => this.addwater(request, response));
         this.app.post('/api/fertilizer/add', (request, response) => this.addfertilizer(request, response));
         this.app.get('/api/user/gardens', (request, response) => this.getGardens(request, response));
-        this.app.get('/api/user/plots', (request, response) => this.getPlots(request, response));
+        this.app.get('/api/garden/:gardenid', (request, response) => this.getGarden(request, response));
 
     }
 }
