@@ -6,20 +6,25 @@ const GardenSchema = new Schema({
     userid: mongoose.ObjectId,
     name: String,
     plots: [{
-        name:String,
-        height: Number,
+        name: String,
+        width : Number,
         length: Number,
+        units: String,
+        quantity: Number,
         watering: [{
             date: Date,
-            waterQuantity: Number
+            waterQuantity: Number,
+            note: String
         }],
-        fertilizer:[{
+        fertilizer: [{
             date: Date,
-            name:String 
-        }],
-        plants: [{
             name: String,
-        }]
+            note: String
+        }],
+        plant: {
+            name: String,
+            quantity: Number
+        }
     }]
 })
 
