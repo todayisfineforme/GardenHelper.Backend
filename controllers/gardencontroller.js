@@ -199,7 +199,6 @@ class GardenController {
         this.app.get('/api/user/gardens/:userid', (request, response) => this.getGardens(request, response));
         this.app.get('/api/garden/:gardenid', (request, response) => this.getGarden(request, response));
         this.app.get('/api/garden/plant/search/:searchterm', (request, response) => this.getPlantSearchResults(request, response));
-
     }
 }
 

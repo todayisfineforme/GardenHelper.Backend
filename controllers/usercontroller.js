@@ -25,6 +25,7 @@ class UserController {
             response.status(500).json(errorObject);
         }
     }
+    
 
     async loginUser(request, response) {
         User.findOne({ email: request.body.email }, (error, user) => {

@@ -26,7 +26,6 @@ class ProfileController {
         catch (error) {
             response.status(500).json({ error: 'unable to save profile information' });
         }
-
     }
 
     async updateProfile(request, response) {
