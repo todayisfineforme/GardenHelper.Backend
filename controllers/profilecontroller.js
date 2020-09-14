@@ -12,7 +12,6 @@ class ProfileController {
             let userid = request.body.userid;
             let location = request.body.location;
             let profilePic = request.body.profilePic;
-            
 
             let profile = new Profile();
             profile.name = name;
