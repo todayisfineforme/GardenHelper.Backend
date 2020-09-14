@@ -13,7 +13,7 @@ const GardenSchema = new Schema({
         quantity: Number,
         watering: [{
             date: Date,
-            waterQuantity: Number,
+            quantity: Number,
             note: String
         }],
         fertilizer: [{
@@ -22,7 +22,9 @@ const GardenSchema = new Schema({
             note: String
         }],
         plant: {
-            name: String,
+            plantName: String,
+            scientificName:String,
+            imageUrl:String,
             quantity: Number
         }
     }]
