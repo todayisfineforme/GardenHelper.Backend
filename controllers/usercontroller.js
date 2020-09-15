@@ -109,7 +109,7 @@ class UserController {
         this.app.post('/user/signup', (request, response) => this.signUpUser(request, response));
         this.app.post('/user/signin', (request, response) => this.loginUser(request, response));
         this.app.get('/user/userInfo/:userid', (request, response) => this.getUser(request, response));
-        this.app.put('./user/userInfo/update', (request, response) => this.userUpdate(request, response));
+        this.app.put('/user/userInfo/update', (request, response) => this.userUpdate(request, response));
     }
 }
 

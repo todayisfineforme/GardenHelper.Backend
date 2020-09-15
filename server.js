@@ -37,7 +37,7 @@ async function connectMongoose() {
   try {
     console.log(`MONGOOSE IS: ${process.env.MONGODB_URL}`);
 
-    await mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/gardenhelperdb", {
+    await mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/garden-helperdb", {
       useNewUrlParser: true,
       useFindAndModify: false,
       useUnifiedTopology: true
@@ -47,3 +47,7 @@ async function connectMongoose() {
 
   }
 }
+
+
+
+
