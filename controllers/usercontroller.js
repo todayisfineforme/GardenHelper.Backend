@@ -1,4 +1,4 @@
-const { response } = require("express");
+const { response, request } = require("express");
 const User = require("../models/user");
 
 class UserController {
@@ -49,10 +49,67 @@ class UserController {
                 response.status(401).json({ error: 'unable to login user' });
             }
         });
+
     }
+
+    async getUser(request, response) {
+        try {
+            let userid = request.params.userid;
+
+            let user = await User.findById(userid);
+
+            if (user) {
+
+                let userObject = {
+                    name: user.username,
+                    image: user.image
+                }
+                response.json(userObject)
+            } else {
+                response.status(401).json({ error: 'unable to find user' });
+            }
+        }
+        catch (error) {
+            response.status(401).json({ error: 'unable to find user' });
+        }
+    }
+
+    async userUpdate(request, response) {
+        try {
+            let userid = request.body.userid;
+            let user = await User.findById(userid);
+
+            if (user) {
+                if (request.body.name)
+                    user.name = request.body.name;
+
+                if (request.body.password)
+                    user.setPassword(request.body.password);
+
+                if (request.body.image)
+                    user.image = request.body.image;
+
+                if (request.body.email)
+                    user.email = request.body.email;
+
+                user.save();
+                response.status(200).json({ success: 'user updated sucessfully' });
+
+            } else {
+
+                response.status(401).json({ error: 'unable to find user' });
+            }
+        }
+        catch (error) {
+            onse.status(500).json({ error: 'failed to update user' });
+        }
+    }
+
     createRoutes() {
         this.app.post('/user/signup', (request, response) => this.signUpUser(request, response));
         this.app.post('/user/signin', (request, response) => this.loginUser(request, response));
+        this.app.get('/user/userInfo/:userid', (request, response) => this.getUser(request, response));
+        this.app.put('./user/userInfo/update', (request, response) => this.userUpdate(request, response));
     }
 }
 
