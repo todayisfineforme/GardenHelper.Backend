@@ -10,13 +10,13 @@ class ProfileController {
         try {
             let name = request.body.name;
             let userid = request.body.userid;
-            let location = request.body.location;
+            let password = request.body.password;
             let profilePic = request.body.profilePic;
 
             let profile = new Profile();
             profile.name = name;
             profile.userid = userid;
-            profile.location = location;
+            profile.password = password;
             profile.profilePic = profilePic;
 
             await profile.save();

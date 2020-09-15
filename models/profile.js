@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const ProfileSchema = new Schema({
     userid: mongoose.ObjectId,
     name: String,
-    userLocation: String,
+    password: String,
     profPic: String
 })
 
