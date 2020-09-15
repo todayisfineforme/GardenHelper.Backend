@@ -18,8 +18,7 @@ app.use(express.static("public"));
 
 connectMongoose();
 
-const whitelist = ['https://dreamco2020.github.io/Project-3-Frontend/', 'localhost'];
-
+const whitelist = ['https://dreamco2020.github.io', 'localhost'];
 
 app.use(cors({
   origin: (origin, callback) => {
