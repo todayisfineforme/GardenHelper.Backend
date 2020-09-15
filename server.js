@@ -23,6 +23,7 @@ const whitelist = ['https://dreamco2020.github.io/Project-3-Frontend/', 'localho
 
 app.use(cors({
   origin: (origin, callback) => {
+    console.log(`ORIGIN is: ${origin}`);
     let allowed = whitelist.find(allowed => origin.includes(allowed));
     if (allowed)
       callback(null, true);
