@@ -3,8 +3,7 @@ const mongoose = require("mongoose");
 const bodyparser = require('body-parser');
 const UserController = require('./controllers/usercontroller');
 const GardenController = require('./controllers/gardencontroller');
-const ProfileController = require('./controllers/profilecontroller');
-const apiController = require('./controllers/api');
+
 const cors = require('cors');
 
 
@@ -32,11 +31,6 @@ userController.createRoutes();
 const gardencontroller = new GardenController(app);
 gardencontroller.createRoutes();
 
-const profilecontroller = new ProfileController(app);
-profilecontroller.createRoutes();
-
-const apicontroller = new apiController(app);
-apicontroller.createRoutes();
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
