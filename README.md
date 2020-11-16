@@ -1,24 +1,26 @@
-# project3backend
+# GardenHelper Backend
 
-Foobar is a Python library for dealing with word pluralization.
+Backend Server for the GardenHelper App. stores user gardens as well as handles all API activity.
 
 ## Installation
 
-Use the node package manager [npm](https://nodejs.org/en/) to install foobar.
+clone repo and then
 
 ```bash
-npm install foobar
+npm install
 ```
+
+to install dependencies
 
 ## Usage
 
-```node.js
-import foobar
+have a MongoDB server running and then
 
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+```node.js
+npm start
 ```
+
+continue using the GardenHelper Frontend
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
